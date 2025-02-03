@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/S24uresh/maven-project.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                dir('/var/lib/jenkins/workspace/pipeline/website') {
+                    sh 'mvn package'
+                }
+            }
+        }
+        stage('Download') {
+            steps {
+                sshagent(['pipeline']) {
+                    sh 'scp -q -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=30 /var/lib/jenkins/workspace/pipeline/website/target/website-1.0-SNAPSHOT.war ubuntu@172.31.10.209:/var/lib/tomcat10/webapps/'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'testing passed'
+            }
+        }
+        stage('Download') {
+            steps {
+                sshagent(['pipeline']) {
+                    sh 'scp -q -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=30 /var/lib/jenkins/workspace/pipeline/website/target/website-1.0-SNAPSHOT.war ubuntu@172.31.24.225:/var/lib/tomcat10/webapps/'
+    }
+}
+
+
