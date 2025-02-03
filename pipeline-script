@@ -31,6 +31,8 @@ pipeline {
                 sshagent(['pipeline']) {
                     sh 'scp -q -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=30 /var/lib/jenkins/workspace/pipeline/website/target/website-1.0-SNAPSHOT.war ubuntu@172.31.24.225:/var/lib/tomcat10/webapps/'
     }
+   }
+  }
+ }
 }
-
 
